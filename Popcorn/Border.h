@@ -8,7 +8,7 @@ public:
 	AsBorder();
 
 	void Init();
-	void Draw(HDC hdc, RECT &PaintArea, HPEN BackgroundPen, HBRUSH BackgroundBrush);
+	void Draw(HDC hdc, RECT &paintArea);
 
 private:
 	void DrawElement(HDC hdc, int x, int y, bool topBorder, HPEN BackgroundPen, HBRUSH BackgroundBrush);

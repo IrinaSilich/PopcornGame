@@ -10,7 +10,7 @@ public:
 
 	void Init();
 
-	void Draw(HDC hdc, RECT &PaintArea, HPEN BackgroundPen, HBRUSH BackgroundBrush);
+	void Draw(HDC hdc, RECT &paintArea);
 	void Move(HWND Hwnd, ALevel* Level, int PlatformXPos, int PlatformWidth);
 
 private:

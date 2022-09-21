@@ -11,19 +11,19 @@ void AsBorder::Init()
     AsConfig::CreatePenBrush(255, 255, 255, WhiteBorderPen, WhiteBorderBrush);
 }
 
-void AsBorder::Draw(HDC hdc, RECT &PaintArea, HPEN BackgroundPen, HBRUSH BackgroundBrush)
+void AsBorder::Draw(HDC hdc, RECT &paintArea)
 {
     //left line
     for (int i = 0; i < 50; i++)
-        DrawElement(hdc, 2, 1 + 4 * i, false, BackgroundPen, BackgroundBrush);
+        DrawElement(hdc, 2, 1 + 4 * i, false, AsConfig::BackgroundPen, AsConfig::BackgroundBrush);
 
     //right line
     for (int i = 0; i < 50; i++)
-        DrawElement(hdc, 201, 1 + 4 * i, false, BackgroundPen, BackgroundBrush);
+        DrawElement(hdc, 201, 1 + 4 * i, false, AsConfig::BackgroundPen, AsConfig::BackgroundBrush);
 
     //upper line
     for (int i = 0; i < 50; i++)
-        DrawElement(hdc, 3 + 4 * i, 0, true, BackgroundPen, BackgroundBrush);
+        DrawElement(hdc, 3 + 4 * i, 0, true, AsConfig::BackgroundPen, AsConfig::BackgroundBrush);
 }
 
 void AsBorder::DrawElement(HDC hdc, int x, int y, bool topBorder, HPEN BackgroundPen, HBRUSH BackgroundBrush)

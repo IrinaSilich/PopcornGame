@@ -5,8 +5,17 @@ AColor::AColor(unsigned char r, unsigned char g, unsigned char b)
 {
 }
 
+const AColor AsConfig::BackgroundColor(15, 63, 31);
 const AColor AsConfig::RedBrickColor(255, 85, 85);
 const AColor AsConfig::BlueBrickColor(85, 255, 255);
+
+HPEN AsConfig::BackgroundPen;
+HBRUSH AsConfig::BackgroundBrush;
+
+void AsConfig::SetupColors()
+{
+    AsConfig::CreatePenBrush(AsConfig::BackgroundColor, BackgroundPen, BackgroundBrush);
+}
 
 void AsConfig::CreatePenBrush(const AColor &Color, HPEN &Pen, HBRUSH &Brush)
 {
@@ -19,3 +28,4 @@ void AsConfig::CreatePenBrush(unsigned char r, unsigned char g, unsigned char b,
     Pen = CreatePen(PS_SOLID, 0, RGB(r, g, b));
     Brush = CreateSolidBrush(RGB(r, g, b));
 }
+

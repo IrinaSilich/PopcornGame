@@ -1,7 +1,7 @@
 ﻿#include "Engine.h"
 
 AsEngine::AsEngine()
-: Hwnd(0), BackgroundPen(0), BackgroundBrush(0)
+: Hwnd(0)
 {
 }
 
@@ -9,7 +9,7 @@ void AsEngine::InitEngine(HWND hwnd)
 {
     Hwnd = hwnd;
 
-    AsConfig::CreatePenBrush(15, 63, 31, BackgroundPen, BackgroundBrush);
+    AActiveBrick::SetupColors();
 
     Level.Init();
     Ball.Init();
@@ -20,12 +20,11 @@ void AsEngine::InitEngine(HWND hwnd)
     SetTimer(Hwnd, TimerID, 1000 / AsConfig::FPS, NULL);
 }
 
-void AsEngine::DrawFrame(HDC hdc, RECT &PaintArea)
+void AsEngine::DrawFrame(HDC hdc, RECT &paintArea)
 {
-    Level.Draw(Hwnd, hdc, PaintArea);
+    Level.Draw(Hwnd, hdc, paintArea);
 
-    Platform.Draw(hdc, BackgroundPen, BackgroundBrush, PaintArea);
-
+    Platform.Draw(hdc, paintArea);
 
     /*for (int i = 0; i < 16; i++)
     {
@@ -33,9 +32,9 @@ void AsEngine::DrawFrame(HDC hdc, RECT &PaintArea)
         DrawBrickLetter(hdc, 20 + i * AsConfig::CellWidth * GlobalScale, 200, EBT_Blue, ELT_None, i);
     }*/
 
-    Ball.Draw(hdc, PaintArea, BackgroundPen, BackgroundBrush);
+    Ball.Draw(hdc, paintArea);
 
-    Border.Draw(hdc, PaintArea, BackgroundPen, BackgroundBrush);
+    Border.Draw(hdc, paintArea);
 }
 
 int AsEngine::OnKeyDown(EKey_Type Key_type)

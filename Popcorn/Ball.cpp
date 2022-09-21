@@ -10,15 +10,15 @@ void ABall::Init()
     AsConfig::CreatePenBrush(255, 255, 255, BallPen, BallBrush);
 }
 
-void ABall::Draw(HDC hdc, RECT& PaintArea, HPEN BackgroundPen, HBRUSH BackgroundBrush)
+void ABall::Draw(HDC hdc, RECT& paintArea)
 {
     RECT IntersectionRect;
 
-    if (!IntersectRect(&IntersectionRect, &PaintArea, &BallRect))
+    if (!IntersectRect(&IntersectionRect, &paintArea, &BallRect))
         return;
 
-    SelectObject(hdc, BackgroundPen);
-    SelectObject(hdc, BackgroundBrush);
+    SelectObject(hdc, AsConfig::BackgroundPen);
+    SelectObject(hdc, AsConfig::BackgroundBrush);
 
     Ellipse(hdc, PreviousBallRect.left, PreviousBallRect.top, PreviousBallRect.right - 1, PreviousBallRect.bottom - 1);
 
@@ -39,7 +39,7 @@ void ABall::Move(HWND Hwnd, ALevel* Level, int PlatformXPos, int PlatformWidth)
     NextXPos = BallXPos + (int)(BallSpeed * cos(BallDirection));
     NextYPos = BallYPos - (int)(BallSpeed * sin(BallDirection));
 
-    //Correct ball bouncing from the walls
+    //Correct ball bouncing off the walls
     if (NextXPos < AsConfig::LeftBorderXOffset)
     {
         NextXPos = AsConfig::AsConfig::OffsetX - (NextXPos - AsConfig::AsConfig::OffsetX);
@@ -64,7 +64,7 @@ void ABall::Move(HWND Hwnd, ALevel* Level, int PlatformXPos, int PlatformWidth)
         BallDirection = M_PI + (M_PI - BallDirection);
     }
 
-    //Correct ball bouncing from the platform
+    //Correct ball bouncing off the platform
     if (NextYPos > platformYPos)
     {
         if (NextXPos >= PlatformXPos && NextXPos <= PlatformXPos + PlatformWidth)
@@ -74,7 +74,7 @@ void ABall::Move(HWND Hwnd, ALevel* Level, int PlatformXPos, int PlatformWidth)
         }
     }
 
-    //Correct ball bouncing from bricks
+    //Correct ball bouncing off bricks
     Level->CheckLevelBrickHit(NextYPos, BallDirection);
 
     //Move the ball

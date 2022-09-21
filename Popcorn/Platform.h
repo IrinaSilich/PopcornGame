@@ -9,7 +9,7 @@ public:
 
 	void Init();
 	void Redraw(HWND Hwnd);
-	void Draw(HDC hdc, HPEN BackgroundPen, HBRUSH BackgroundBrush, RECT& PaintArea);
+	void Draw(HDC hdc, RECT& paintArea);
 
 	int XPos;
 	int Width;

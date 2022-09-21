@@ -17,7 +17,7 @@ public:
 	void Init();
 
 	void CheckLevelBrickHit(int& NextYPos, double& ballDirection);
-	void Draw(HWND Hwnd, HDC hdc, RECT& PaintArea);
+	void Draw(HWND Hwnd, HDC hdc, RECT& paintArea);
 
 	AActiveBrick ActiveBrick;
 

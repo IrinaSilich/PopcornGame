@@ -20,15 +20,13 @@ public:
 	AsEngine();
 
 	void InitEngine(HWND hwnd);
-	void DrawFrame(HDC hdc, RECT &PaintArea);
+	void DrawFrame(HDC hdc, RECT &paintArea);
 	
 	int OnKeyDown(EKey_Type Key_type);
 	int OnTimer();
 
 private:
 	HWND Hwnd;
-	HPEN BackgroundPen;
-	HBRUSH BackgroundBrush;
 	ABall Ball;
 	ALevel Level;
 	AsPlatform Platform;

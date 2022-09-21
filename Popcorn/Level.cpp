@@ -19,7 +19,7 @@ char ALevel::FirstLevel[AsConfig::LevelHeight][AsConfig::LevelWidth] =
 };
 
 ALevel::ALevel()
-: LetterPen(0), RedBrickPen(0), BlueBrickPen(0), RedBrickBrush(0), BlueBrickBrush(0), LevelRect{}
+: ActiveBrick(EBT_Red), LetterPen(0), RedBrickPen(0), BlueBrickPen(0), RedBrickBrush(0), BlueBrickBrush(0), LevelRect{}
 {
 }
 
@@ -38,7 +38,7 @@ void ALevel::Init()
 
 void ALevel::CheckLevelBrickHit(int& NextYPos, double& ballDirection)
 {
-    //Correct ball bouncing from bricks
+    //Adjust ball bouncing off bricks
 
     int BrickYPos = AsConfig::OffsetY + AsConfig::LevelHeight * AsConfig::CellHeight;
 
@@ -60,18 +60,18 @@ void ALevel::CheckLevelBrickHit(int& NextYPos, double& ballDirection)
     }
 }
 
-void ALevel::Draw(HWND Hwnd, HDC hdc, RECT &PaintArea)
+void ALevel::Draw(HWND Hwnd, HDC hdc, RECT &paintArea)
 {
     RECT IntersectionRect;
 
-    if (!IntersectRect(&IntersectionRect, &PaintArea, &LevelRect))
+    if (!IntersectRect(&IntersectionRect, &paintArea, &LevelRect))
         return;
 
     for (int j = 0; j < AsConfig::LevelHeight; j++)
         for (int i = 0; i < AsConfig::LevelWidth; i++)
             DrawBrick(hdc, AsConfig::OffsetX + i * AsConfig::CellWidth, AsConfig::OffsetY + j * AsConfig::CellHeight, (EBrickType)FirstLevel[j][i]);
 
-    ActiveBrick.Draw(Hwnd, hdc, PaintArea);
+    ActiveBrick.Draw(Hwnd, hdc, paintArea);
 }
 
 void ALevel::DrawBrick(HDC hdc, int x, int y, EBrickType BrickType)
@@ -132,11 +132,11 @@ void ALevel::DrawBrickLetter(HDC hdc, int x, int y, EBrickType BrickType, ELette
     double RotationAngle;
     int BrickHalfHeight = AActiveBrick::BrickHeight * AsConfig::GlobalScale / 2;
 
-    // Falling Letters can be only from Bricks of such types
+    //Falling Letters can be only from Bricks of such types
     if (!(BrickType == EBT_Red || BrickType == EBT_Blue))
         return;
 
-    // Correction of the RotationStep and RotationAngle
+    //Correction of the RotationStep and RotationAngle
     RotationStep = RotationStep % 16;
 
     if (RotationStep < 8)
@@ -163,13 +163,13 @@ void ALevel::DrawBrickLetter(HDC hdc, int x, int y, EBrickType BrickType, ELette
 
     if (RotationStep == 4 || RotationStep == 12)
     {
-        // Draw Letter Background
+        //Draw Letter Background
         SelectObject(hdc, RedBrickPen);
         SelectObject(hdc, RedBrickBrush);
 
         Rectangle(hdc, x, y + BrickHalfHeight - AsConfig::GlobalScale, x + AActiveBrick::BrickWidth * AsConfig::GlobalScale, y + BrickHalfHeight);
 
-        // Draw Letter Front
+        //Draw Letter Front
         SelectObject(hdc, BlueBrickPen);
         SelectObject(hdc, BlueBrickBrush);
 
@@ -179,7 +179,7 @@ void ALevel::DrawBrickLetter(HDC hdc, int x, int y, EBrickType BrickType, ELette
     {
         SetGraphicsMode(hdc, GM_ADVANCED);
 
-        // Transformation Matrix for Letter Rotation
+        //Transformation Matrix for Letter Rotation
         XForm.eM11 = 1;
         XForm.eM12 = 0;
         XForm.eM21 = 0;
@@ -190,7 +190,7 @@ void ALevel::DrawBrickLetter(HDC hdc, int x, int y, EBrickType BrickType, ELette
         GetWorldTransform(hdc, &OldXForm);
         SetWorldTransform(hdc, &XForm);
 
-        // Draw Letter Background
+        //Draw Letter Background
         SelectObject(hdc, BackPen);
         SelectObject(hdc, BackBrush);
 
@@ -199,7 +199,7 @@ void ALevel::DrawBrickLetter(HDC hdc, int x, int y, EBrickType BrickType, ELette
 
         Rectangle(hdc, 0, -BrickHalfHeight - BackPartOffset, AActiveBrick::BrickWidth * AsConfig::GlobalScale, BrickHalfHeight - BackPartOffset);
 
-        // Draw Letter Front
+        //Draw Letter Front
         SelectObject(hdc, FrontPen);
         SelectObject(hdc, FrontBrush);
 

@@ -15,8 +15,12 @@ public:
 class AsConfig
 {
 public:
+	static void SetupColors();
 	static void CreatePenBrush(const AColor &Color, HPEN& Pen, HBRUSH& Brush);
 	static void CreatePenBrush(unsigned char r, unsigned char g, unsigned char b, HPEN& Pen, HBRUSH& Brush);
+
+	static HPEN BackgroundPen;
+	static HBRUSH BackgroundBrush;
 	
 	static const int BallSize = 4;
 	static const int LevelWidth = 12; // in cells, not in pixels
@@ -32,6 +36,6 @@ public:
 	static const int LeftBorderXOffset = 6;
 	static const int UpperBorderYOffset = 4;
 	static const int FPS = 20;
-	static const AColor RedBrickColor, BlueBrickColor;
+	static const AColor BackgroundColor, RedBrickColor, BlueBrickColor;
 	
 };

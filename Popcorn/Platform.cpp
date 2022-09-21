@@ -26,35 +26,35 @@ void AsPlatform::Redraw(HWND Hwnd)
     InvalidateRect(Hwnd, &PlatformRect, FALSE);
 }
 
-void AsPlatform::Draw(HDC hdc, HPEN BackgroundPen, HBRUSH BackgroundBrush, RECT& PaintArea)
+void AsPlatform::Draw(HDC hdc, RECT& paintArea)
 {
     RECT IntersectionRect;
     int x = XPos;
     int y = AsConfig::PlatformYPos;
 
-    if (!IntersectRect(&IntersectionRect, &PaintArea, &PlatformRect))
+    if (!IntersectRect(&IntersectionRect, &paintArea, &PlatformRect))
         return;
 
     //Redraw background when moving our platform
-    SelectObject(hdc, BackgroundPen);
-    SelectObject(hdc, BackgroundBrush);
+    SelectObject(hdc, AsConfig::BackgroundPen);
+    SelectObject(hdc, AsConfig::BackgroundBrush);
 
     Rectangle(hdc, PreviousPlatformRect.left, PreviousPlatformRect.top, PreviousPlatformRect.right, PreviousPlatformRect.bottom);
 
-    // Draw Side Circles
+    //Draw Side Circles
     SelectObject(hdc, PlatformCirclePen);
     SelectObject(hdc, PlatformCircleBrush);
 
     Ellipse(hdc, x * AsConfig::GlobalScale, y * AsConfig::GlobalScale, (x + CircleSize) * AsConfig::GlobalScale, (y + CircleSize) * AsConfig::GlobalScale);
     Ellipse(hdc, (x + InnerWidth) * AsConfig::GlobalScale, y * AsConfig::GlobalScale, (x + CircleSize + InnerWidth) * AsConfig::GlobalScale, (y + CircleSize) * AsConfig::GlobalScale);
 
-    // Draw Highlight
+    //Draw Highlight
     SelectObject(hdc, HighlightPen);
 
     Arc(hdc, (x + 1) * AsConfig::GlobalScale, (y + 1) * AsConfig::GlobalScale, (x + CircleSize - 1) * AsConfig::GlobalScale, (y + CircleSize - 1) * AsConfig::GlobalScale,
         (x + 1 + 1) * AsConfig::GlobalScale, (y + 1) * AsConfig::GlobalScale, (x + 1) * AsConfig::GlobalScale, (y + 1 + 1) * AsConfig::GlobalScale);
 
-    // Draw Inner Part of the Platform
+    //Draw the Inner Part of the Platform
     SelectObject(hdc, PlatformInnerPen);
     SelectObject(hdc, PlatformInnerBrush);
 
